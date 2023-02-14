@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  database:
+    image: postgres
+    container_name: todolist
+    volumes:
+      - db-data:/var/lib/postgres
+    environment:
+      POSTGRES_USER: talibnabi
+      POSTGRES_PASSWORD: password999
+      POSTGRES_DB: todo
+    ports:
+      - "5432:5432"
+    networks:
+      - todo_docker_network
+
+networks:
+  todo_docker_network:
+volumes:
+  db-data:
