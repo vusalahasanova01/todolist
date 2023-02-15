@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  *
-* */
+ */
 @Configuration
 public class OpenAPIConfig {
     @Bean
@@ -37,15 +37,15 @@ public class OpenAPIConfig {
 //            .security(List.of(new SecurityRequirement().addList(securitySchemeName)))
                 .info(
                         new Info()
-                                .title("Origin Certification Service API")
-                                .description("Mənşə serttifikatı - Xidmət tərəfi üçün API")
+                                .title("TODO")
+                                .description("TODO-LİST")
                                 .version("1.0.0")
                                 .license(
                                         new License()
                                                 .name("Apache License 2.0")
                                                 .url("https://www.apache.org/licenses/LICENSE-2.0")))
                 .externalDocs(
-                        new ExternalDocumentation().description("AISTGroup MMC").url("https://aist.group/"));
+                        new ExternalDocumentation().description("ABB-INNOVATION").url(""));
     }
 
 }
