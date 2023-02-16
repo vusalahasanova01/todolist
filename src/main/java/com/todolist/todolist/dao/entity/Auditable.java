@@ -2,8 +2,6 @@ package com.todolist.todolist.dao.entity;
 
 
 import lombok.*;
-import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.Comment;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -25,7 +23,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass
-@FieldDefaults(level = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 public abstract class Auditable<U> implements Serializable {
 
@@ -34,26 +31,21 @@ public abstract class Auditable<U> implements Serializable {
 
     @CreatedBy
     @Column(name = "reg_user", nullable = false, updatable = false)
-    @Comment("istifadəçi id-si")
-    U regUserId;
+    protected U regUserId;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    @Comment("qeydiyyat tarixi")
-    LocalDateTime regDate;
+    protected LocalDateTime regDate;
 
     @LastModifiedBy
     @Column(name = "edit_user")
-    @Comment("edit olunan user id-si")
-    U editUserId;
+    protected U editUserId;
 
     @LastModifiedDate
     @Column(name = "edit_date")
-    @Comment("edit vaxtı")
-    LocalDateTime editDate;
+    protected LocalDateTime editDate;
 
     @Column(name = "in_power")
-    @Comment("qüvvədədir ya yox")
-    Boolean inPower;
+    protected Boolean inPower;
 
 }
