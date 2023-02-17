@@ -2,22 +2,26 @@ package com.todolist.todolist.dao.entity;
 
 
 import com.todolist.todolist.annotation.ValidPassword;
-import lombok.*;
-import org.hibernate.annotations.Comment;
+import lombok.Builder;
+import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "ag_user")
-public class User extends Auditable<User> implements Serializable {
+public class User implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -41,9 +45,13 @@ public class User extends Auditable<User> implements Serializable {
     @Column(name = "password")
     private String password;
 
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    protected LocalDateTime registrationDate;
+
     @OneToMany(
             mappedBy = "user",
-            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE},
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST},
             fetch = FetchType.LAZY)
     private List<Task> tasks;
 

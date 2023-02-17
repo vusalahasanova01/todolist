@@ -2,7 +2,10 @@ package com.todolist.todolist.dao.entity;
 
 import com.todolist.todolist.model.enums.TaskSortType;
 import com.todolist.todolist.model.enums.TaskStatus;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serial;
@@ -13,8 +16,9 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "ag_task")
-public class Task extends Auditable<Task> implements Serializable {
+public class Task implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -34,6 +38,8 @@ public class Task extends Auditable<Task> implements Serializable {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "task_create_date")
+    private LocalDate taskCreateDate;
     @Column(name = "task_deadline_date")
     private LocalDate taskDeadlineDate;
 
