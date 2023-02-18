@@ -21,5 +21,9 @@ public class TaskController {
     return taskService.getTasksByUserId(userid);
   }
 
+  @GetMapping("/userid{userid}")
+  public List<Task> getArchiveTasks(@PathVariable Long userid){
+    return taskService.getArchiveTasks(userid);
+  }
 
 }
