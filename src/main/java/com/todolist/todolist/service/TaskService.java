@@ -31,7 +31,7 @@ public class TaskService {
 
     public Task createTaskById(Long userId, Task task) {
         Optional<User> userOptional = userRepository.findById(userId);
-        User user = userOptional.orElseThrow(() -> new UserNotFoundException(String.format("User with %d not found", userId)));
+        User user = userOptional.orElseThrow(ExceptionUtil::exUserNotFound);
         task.setUser(user);
         return taskRepository.save(task);
     }
@@ -47,7 +47,7 @@ public class TaskService {
                     task.setTaskDeadlineDate(newTask.getTaskDeadlineDate());
                     return taskRepository.save(task);
                 })
-                .orElseThrow(() -> new TaskNotFoundException(String.format("Task with %d not found", id)));
+                .orElseThrow(ExceptionUtil::exTaskNotFound);
     }
 
     public List<Task> getArchiveTasks(Long id) {
