@@ -7,11 +7,10 @@ import com.todolist.todolist.dao.repository.UserRepository;
 import com.todolist.todolist.exception.TaskNotFoundException;
 import com.todolist.todolist.exception.UserNotFoundException;
 import com.todolist.todolist.model.enums.TaskStatus;
-import lombok.NoArgsConstructor;
+import com.todolist.todolist.util.ExceptionUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -25,9 +24,8 @@ public class TaskService {
     private final TaskRepository taskRepository;
 
     public List<Task> getTasksByUserId(Long id) {
-        //List<Task> tasks;
         Optional<User> optionalUser = userRepository.findById(id);
-        User user = optionalUser.orElseThrow(this::exUserNotFound);
+        User user = optionalUser.orElseThrow(ExceptionUtil::exUserNotFound);
         return user.getTasks();
     }
 
@@ -54,7 +52,7 @@ public class TaskService {
 
     public List<Task> getArchiveTasks(Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
-        User user = optionalUser.orElseThrow(this::exUserNotFound);
+        User user = optionalUser.orElseThrow(ExceptionUtil::exUserNotFound);
         return user.getTasks().stream()
                 .filter(this::isTaskStatusArchived)
                 .collect(Collectors.toList());
@@ -70,7 +68,5 @@ public class TaskService {
         taskRepository.deleteById(id);
     }
 
-    private UserNotFoundException exUserNotFound() {
-        return new UserNotFoundException("user not found");
-    }
+
 }
