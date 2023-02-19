@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Entity
 @Table(name = "ag_task")
 public class Task implements Serializable {
     @Serial
