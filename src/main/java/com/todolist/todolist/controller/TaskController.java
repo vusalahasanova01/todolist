@@ -14,9 +14,14 @@ import java.util.List;
 public class TaskController {
   private final TaskService taskService;
 
-  @GetMapping("/userid/{userid}")
+  @GetMapping("/getTasks/{userid}")
   public List<Task> getTasksByUserId(@PathVariable Long userid) {
     return taskService.getTasksByUserId(userid);
+  }
+
+  @GetMapping("/getArchivedTasks/{userid}")
+  public List<Task> getArchivedTasks(@PathVariable Long userid) {
+    return taskService.getArchiveTasks(userid);
   }
 
   @PostMapping("/addTask/{userId}")
