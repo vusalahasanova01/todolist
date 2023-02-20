@@ -14,23 +14,23 @@ import java.util.List;
 public class TaskController {
   private final TaskService taskService;
 
-  @GetMapping("/getTasks/{userid}")
+  @GetMapping("/getTasks/userid/{userid}")
   public List<Task> getTasksByUserId(@PathVariable Long userid) {
     return taskService.getTasksByUserId(userid);
   }
 
-  @GetMapping("/getArchivedTasks/{userid}")
+  @GetMapping("/getArchivedTasks/userid/{userid}")
   public List<Task> getArchivedTasks(@PathVariable Long userid) {
     return taskService.getArchiveTasks(userid);
   }
 
-  @PostMapping("/addTask/{userId}")
+  @PostMapping("/addTask/userid/{userId}")
   public ResponseEntity<Task> createTask(@PathVariable Long userId, @RequestBody Task task) {
     Task createdTask = taskService.createTaskById(userId, task);
     return ResponseEntity.ok(createdTask);
   }
 
-  @PutMapping("/{taskId}")
+  @PutMapping("id/{taskId}")
   public ResponseEntity<Task> updateTask(@PathVariable Long taskId, @RequestBody Task task) {
     Task updatedTask = taskService.updateTask(taskId, task);
     return ResponseEntity.ok(updatedTask);
