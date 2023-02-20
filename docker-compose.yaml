@@ -6,8 +6,8 @@ services:
     volumes:
       - db-data:/var/lib/postgres
     environment:
-      POSTGRES_USER: talibnabi
-      POSTGRES_PASSWORD: password999
+      POSTGRES_USER: vusala01
+      POSTGRES_PASSWORD: Butterfly2001
       POSTGRES_DB: todo
     ports:
       - "5432:5432"
