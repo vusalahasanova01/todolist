@@ -7,4 +7,5 @@ public interface UserService extends UserDetailsService {
 
     User getUserById(Long id);
 
+    void save(User user);
 }
