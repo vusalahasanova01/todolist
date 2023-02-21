@@ -10,6 +10,7 @@ import com.todolist.todolist.service.UserService;
 import com.todolist.todolist.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserService userService;
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String bearerToken = request.getHeader(AUTHORIZATION);
@@ -62,7 +64,9 @@ public class AuthServiceImpl implements AuthService {
         User user = new User();
 
         if (request.isPasswordsMatched()){
-            user.setPassword(request.getPassword());
+            String password = request.getPassword();
+            String encodedPassword = bCryptPasswordEncoder.encode(password);
+            user.setPassword(encodedPassword);
         } else {
             throw new PasswordsNotMatchedException("passwords not mathced");
         }
