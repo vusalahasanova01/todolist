@@ -3,7 +3,7 @@ package com.todolist.todolist.util;
 import com.todolist.todolist.exception.TaskNotFoundException;
 import com.todolist.todolist.exception.UserNotFoundException;
 
-public class ExceptionUtil {
+public final class ExceptionUtil {
 
     public static TaskNotFoundException exTaskNotFound() {
         return new TaskNotFoundException("user not found");

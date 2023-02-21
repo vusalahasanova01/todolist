@@ -1,8 +1,7 @@
 package com.todolist.todolist.dao.entity;
 
 
-import com.todolist.todolist.annotation.ValidPassword;
-import lombok.Builder;
+import com.todolist.todolist.validation.constraints.ValidPassword;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -54,6 +53,5 @@ public class User implements Serializable {
             cascade = {CascadeType.MERGE, CascadeType.PERSIST},
             fetch = FetchType.LAZY)
     private List<Task> tasks;
-
 
 }
