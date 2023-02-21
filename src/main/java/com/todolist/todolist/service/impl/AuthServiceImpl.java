@@ -1,8 +1,8 @@
 package com.todolist.todolist.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.todolist.todolist.config.SecurityConstants;
 import com.todolist.todolist.dao.entity.User;
-import com.todolist.todolist.dao.repository.UserRepository;
 import com.todolist.todolist.exception.PasswordsNotMatchedException;
 import com.todolist.todolist.model.dto.request.RegisterRequest;
 import com.todolist.todolist.service.AuthService;
@@ -28,12 +28,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class AuthServiceImpl implements AuthService {
 
     private final UserService userService;
-    private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String bearerToken = request.getHeader(AUTHORIZATION);
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+        if (bearerToken != null && bearerToken.startsWith(SecurityConstants.BEARER_PREFIX)) {
             try {
                 String username = SecurityUtil.getSubjectFromBearerToken(bearerToken);
                 UserDetails user = userService.loadUserByUsername(username);
@@ -75,7 +74,7 @@ public class AuthServiceImpl implements AuthService {
         user.setEmail(request.getEmail());
         user.setRegistrationDate(LocalDateTime.now());
 
-        userRepository.save(user);
+        userService.save(user);
     }
 
 }
