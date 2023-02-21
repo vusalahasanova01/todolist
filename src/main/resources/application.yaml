@@ -9,8 +9,5 @@ spring:
     generate-ddl: true
     show-sql: true
 
-  liquibase:
-    enabled: false
-
 server:
   port: 8099
