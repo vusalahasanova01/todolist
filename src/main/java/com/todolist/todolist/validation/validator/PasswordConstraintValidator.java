@@ -1,7 +1,7 @@
-package com.todolist.todolist.annotation.validator;
+package com.todolist.todolist.validation.validator;
 
 
-import com.todolist.todolist.annotation.ValidPassword;
+import com.todolist.todolist.validation.constraints.ValidPassword;
 import org.passay.*;
 
 import javax.validation.ConstraintValidator;
@@ -40,4 +40,5 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
                 .addConstraintViolation();
         return false;
     }
+
 }
