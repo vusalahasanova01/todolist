@@ -59,7 +59,6 @@ public class TaskServiceImpl implements TaskService {
         return user.getTasks().stream()
                 .filter(this::isTaskStatusArchived)
                 .collect(Collectors.toList());
-
     }
 
     @Override
@@ -71,6 +70,5 @@ public class TaskServiceImpl implements TaskService {
         if (Objects.isNull(task)) return false;
         return TaskStatus.ARCHIVE.equals(task.getTaskStatus());
     }
-
 
 }
