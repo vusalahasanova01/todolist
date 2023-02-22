@@ -1,6 +1,6 @@
 package com.todolist.todolist.controller;
 
-import com.todolist.todolist.model.dto.request.RegisterRequest;
+import com.todolist.todolist.dto.request.RegisterRequest;
 import com.todolist.todolist.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

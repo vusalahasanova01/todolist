@@ -37,7 +37,7 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
         customAuthenticationFilter.setFilterProcessesUrl("/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests().antMatchers("/login/**", "/token/refresh/**").permitAll();
+        http.authorizeRequests().antMatchers("/login/**", "/token/refresh/**", "register").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);

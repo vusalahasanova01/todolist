@@ -1,4 +1,4 @@
-package com.todolist.todolist.model.dto.request;
+package com.todolist.todolist.dto.request;
 
 import com.todolist.todolist.validation.constraints.ValidPassword;
 import lombok.Data;
