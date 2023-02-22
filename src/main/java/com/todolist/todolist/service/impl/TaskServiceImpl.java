@@ -4,7 +4,7 @@ import com.todolist.todolist.dao.entity.Task;
 import com.todolist.todolist.dao.entity.User;
 import com.todolist.todolist.dao.repository.TaskRepository;
 import com.todolist.todolist.dao.repository.UserRepository;
-import com.todolist.todolist.model.enums.TaskStatus;
+import com.todolist.todolist.model.TaskStatus;
 import com.todolist.todolist.service.TaskService;
 import com.todolist.todolist.util.ExceptionUtil;
 import lombok.RequiredArgsConstructor;
@@ -68,7 +68,7 @@ public class TaskServiceImpl implements TaskService {
 
     private boolean isTaskStatusArchived(Task task) {
         if (Objects.isNull(task)) return false;
-        return TaskStatus.ARCHIVE.equals(task.getTaskStatus());
+        return TaskStatus.ARCHIVED.equals(task.getTaskStatus());
     }
 
 }

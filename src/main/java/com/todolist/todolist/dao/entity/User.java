@@ -14,7 +14,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,7 +37,6 @@ public class User implements Serializable {
     @Email
     @Column(name = "email")
     private String email;
-
 
     @ValidPassword
     @Column(name = "password")

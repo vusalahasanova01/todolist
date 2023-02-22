@@ -1,8 +1,8 @@
 package com.todolist.todolist.dao.entity;
 
-import com.todolist.todolist.model.enums.TaskSortType;
-import com.todolist.todolist.model.enums.TaskStatus;
-import lombok.Builder;
+import com.todolist.todolist.model.TaskSortType;
+import com.todolist.todolist.model.TaskStatus;
+import com.todolist.todolist.util.ExceptionUtil;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Arrays;
 
 
 @Data
@@ -19,6 +20,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "ag_task")
 public class Task implements Serializable {
+
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -35,25 +37,44 @@ public class Task implements Serializable {
     @Column(name = "photo")
     private byte[] photo;
 
+    @Column(name = "task_sort_type")
+    private Integer taskSortType;
+
+    @Column(name = "task_status")
+    private Integer taskStatus;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
     @Column(name = "description")
     private String description;
 
     @Column(name = "task_create_date")
     private LocalDate taskCreateDate;
+
     @Column(name = "task_deadline_date")
     private LocalDate taskDeadlineDate;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "task_sort_type")
-    private TaskSortType taskSortType;
+    public TaskSortType getTaskSortType() {
+        return Arrays.stream(TaskSortType.values())
+                .filter(sortType -> sortType.getId() == this.taskSortType)
+                .findFirst()
+                .orElseThrow(ExceptionUtil::exUnsupported);
+    }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    public void setTaskSortType(TaskSortType taskSortType) {
+        this.taskSortType = taskSortType.getId();
+    }
 
+    public TaskStatus getTaskStatus() {
+        return Arrays.stream(TaskStatus.values())
+                .filter(status -> status.getId() == this.taskStatus)
+                .findFirst()
+                .orElseThrow(ExceptionUtil::exUnsupported);
+    }
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "task_status")
-    private TaskStatus taskStatus;
-
+    public void setTaskStatus(TaskStatus taskStatus) {
+        this.taskStatus = taskStatus.getId();
+    }
 
 }

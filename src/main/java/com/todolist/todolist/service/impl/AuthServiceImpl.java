@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todolist.todolist.config.SecurityConstants;
 import com.todolist.todolist.dao.entity.User;
 import com.todolist.todolist.exception.PasswordsNotMatchedException;
-import com.todolist.todolist.model.dto.request.RegisterRequest;
+import com.todolist.todolist.dto.request.RegisterRequest;
 import com.todolist.todolist.service.AuthService;
 import com.todolist.todolist.service.UserService;
 import com.todolist.todolist.util.SecurityUtil;
