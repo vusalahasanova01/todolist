@@ -1,9 +1,9 @@
 spring:
   datasource:
-    driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/todo
-    username: vusala01
-    password: Butterfly2001
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://todoapp.cghqknuwp2cc.us-east-2.rds.amazonaws.com:3306/todoapp
+    username: ParvizValiyev
+    password: password
   jpa:
     hibernate.ddl-auto: update
     generate-ddl: true
@@ -21,6 +21,6 @@ spring:
             enable:true:
 
 server:
-  port: 8099
+  port: 5000
 
 
