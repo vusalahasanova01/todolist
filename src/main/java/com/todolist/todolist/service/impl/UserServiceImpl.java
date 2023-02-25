@@ -2,6 +2,7 @@ package com.todolist.todolist.service.impl;
 
 import com.todolist.todolist.dao.entity.User;
 import com.todolist.todolist.dao.repository.UserRepository;
+import com.todolist.todolist.exception.VerificationFailedException;
 import com.todolist.todolist.service.UserService;
 import com.todolist.todolist.util.ExceptionUtil;
 import lombok.RequiredArgsConstructor;
@@ -31,11 +32,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public User getByVerificationCode(String verificationCode) {
+        return userRepository.findByVerificationCode(verificationCode);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, VerificationFailedException {
         User userByEmail = userRepository.findByEmail(username);
 
         if (Objects.isNull(userByEmail)) {
             throw ExceptionUtil.exUserNotFound();
+        }
+
+        if (Boolean.FALSE.equals(userByEmail.getEnabled())) {
+            throw ExceptionUtil.verificationFailed();
         }
 
         return new org.springframework.security.core.userdetails.User(

@@ -35,10 +35,9 @@ public class User implements Serializable {
     private String fullName;
 
     @Email
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
-    @ValidPassword
     @Column(name = "password")
     private String password;
 
@@ -46,10 +45,20 @@ public class User implements Serializable {
     @Column(nullable = false, updatable = false)
     protected LocalDateTime registrationDate;
 
+    @Column(name = "verification_code", length = 64)
+    private String verificationCode;
+
+    @Column(name = "enabled")
+    private Boolean enabled;
+
     @OneToMany(
             mappedBy = "user",
             cascade = {CascadeType.MERGE, CascadeType.PERSIST},
             fetch = FetchType.LAZY)
     private List<Task> tasks;
+
+    public boolean isEnabled() {
+        return Boolean.TRUE.equals(this.enabled);
+    }
 
 }

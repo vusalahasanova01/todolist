@@ -12,4 +12,6 @@ public interface AuthService {
 
     void register(RegisterRequest request);
 
+    boolean verify(String verificationCode);
+
 }
