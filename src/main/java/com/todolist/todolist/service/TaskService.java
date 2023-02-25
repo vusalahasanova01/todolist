@@ -11,6 +11,8 @@ public interface TaskService {
 
     Task updateTask(Long id, Task newTask);
 
+    void archiveTask(Long id);
+
     List<Task> getArchiveTasks(Long id);
 
     void deleteTask(Long id);

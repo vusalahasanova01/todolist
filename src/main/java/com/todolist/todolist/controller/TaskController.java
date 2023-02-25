@@ -24,6 +24,10 @@ public class TaskController {
     return taskService.getArchiveTasks(userid);
   }
 
+  @PutMapping("archive/id{id}")
+  public  void archiveTask(@PathVariable Long id){
+    taskService.archiveTask(id);
+  }
   @PostMapping("/addTask/userid/{userId}")
   public ResponseEntity<Task> createTask(@PathVariable Long userId, @RequestBody Task task) {
     Task createdTask = taskService.createTaskById(userId, task);

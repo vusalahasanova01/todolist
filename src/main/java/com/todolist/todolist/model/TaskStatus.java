@@ -9,6 +9,7 @@ public enum TaskStatus {
     ARCHIVED(1),
     ACTIVE(2);
 
+
     @Getter
     private final int id;
 
