@@ -52,6 +52,8 @@ public class TaskServiceImpl implements TaskService {
                 .orElseThrow(ExceptionUtil::exTaskNotFound);
     }
 
+
+
     @Override
     public List<Task> getArchiveTasks(Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
@@ -64,6 +66,16 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void deleteTask(Long id) {
         taskRepository.deleteById(id);
+    }
+
+    public void archiveTask(Long id) {
+        Optional<Task> optionalTask = taskRepository.findById(id);
+        Task task = optionalTask.orElseThrow(ExceptionUtil:: exTaskNotFound);
+        if (task.getTaskStatus().equals(TaskStatus.ACTIVE)) {
+            throw ExceptionUtil.exUnsupported();
+        }
+        task.setTaskStatus(TaskStatus.ACTIVE);
+        taskRepository.save(task);
     }
 
     private boolean isTaskStatusArchived(Task task) {
