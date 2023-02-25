@@ -1,4 +1,4 @@
-package com.todolist.todolist.config;
+package com.todolist.todolist.config.properties;
 
 import com.auth0.jwt.algorithms.Algorithm;
 

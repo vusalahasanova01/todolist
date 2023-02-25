@@ -3,10 +3,9 @@ package com.todolist.todolist.controller;
 import com.todolist.todolist.dto.request.RegisterRequest;
 import com.todolist.todolist.service.AuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +26,11 @@ public class AuthController {
     @PostMapping("/register")
     public void register(@Valid @RequestBody RegisterRequest request) {
         authService.register(request);
+    }
+
+    @GetMapping("/verify")
+    public boolean verifyUser(@RequestParam("code") String code) {
+        return authService.verify(code);
     }
 
 }

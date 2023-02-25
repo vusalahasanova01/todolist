@@ -2,7 +2,7 @@ package com.todolist.todolist.security.filter;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.todolist.todolist.config.SecurityConstants;
+import com.todolist.todolist.config.properties.SecurityConstants;
 import com.todolist.todolist.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,8 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
         String servletPath = request.getServletPath();
         if (servletPath.equals("/login") ||
                 servletPath.equals("/token/refresh") ||
-                servletPath.equals("/register")) {
+                servletPath.equals("/register") ||
+                servletPath.equals("/verify")) {
             filterChain.doFilter(request, response);
         } else {
             String bearerToken = request.getHeader(AUTHORIZATION);
