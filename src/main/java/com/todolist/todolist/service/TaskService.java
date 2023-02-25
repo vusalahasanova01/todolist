@@ -13,7 +13,11 @@ public interface TaskService {
 
     void archiveTask(Long id);
 
+    void unArchiveTask(Long id);
+
     List<Task> getArchiveTasks(Long id);
 
     void deleteTask(Long id);
+
+
 }
