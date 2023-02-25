@@ -71,6 +71,16 @@ public class TaskServiceImpl implements TaskService {
     public void archiveTask(Long id) {
         Optional<Task> optionalTask = taskRepository.findById(id);
         Task task = optionalTask.orElseThrow(ExceptionUtil:: exTaskNotFound);
+        if (task.getTaskStatus().equals(TaskStatus.ARCHIVED)) {
+            throw ExceptionUtil.exUnsupported();
+        }
+        task.setTaskStatus(TaskStatus.ARCHIVED);
+        taskRepository.save(task);
+    }
+
+    public void unArchiveTask(Long id) {
+        Optional<Task> optionalTask = taskRepository.findById(id);
+        Task task = optionalTask.orElseThrow(ExceptionUtil:: exTaskNotFound);
         if (task.getTaskStatus().equals(TaskStatus.ACTIVE)) {
             throw ExceptionUtil.exUnsupported();
         }

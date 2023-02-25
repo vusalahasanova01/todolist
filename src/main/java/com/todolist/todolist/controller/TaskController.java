@@ -28,6 +28,12 @@ public class TaskController {
   public  void archiveTask(@PathVariable Long id){
     taskService.archiveTask(id);
   }
+
+  @PutMapping("unarchive/id{id}")
+  public  void unarchiveTask(@PathVariable Long id){
+    taskService.unArchiveTask(id);
+  }
+
   @PostMapping("/addTask/userid/{userId}")
   public ResponseEntity<Task> createTask(@PathVariable Long userId, @RequestBody Task task) {
     Task createdTask = taskService.createTaskById(userId, task);
