@@ -21,31 +21,25 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class OpenAPIConfig {
-    @Bean
-    public OpenAPI publicApi() {
-//        final String securitySchemeName = "bearerAuth";
-        return new OpenAPI()
-//            .components(
-//                new Components()
-//                    .addSecuritySchemes(securitySchemeName,
-//                        new SecurityScheme()
-//                            .type(SecurityScheme.Type.HTTP)
-//                            .scheme("bearer")
-//                            .bearerFormat("JWT")
-//                    )
-//            )
-//            .security(List.of(new SecurityRequirement().addList(securitySchemeName)))
-                .info(
-                        new Info()
-                                .title("TODO")
-                                .description("TODO-LİST")
-                                .version("1.0.0")
-                                .license(
-                                        new License()
-                                                .name("Apache License 2.0")
-                                                .url("https://www.apache.org/licenses/LICENSE-2.0")))
-                .externalDocs(
-                        new ExternalDocumentation().description("ABB-INNOVATION").url(""));
+    @Configuration
+    public class OpenApiConfig {
+        @Bean
+        public OpenAPI customOpenAPI() {
+            final String securitySchemeName = "bearerAuth";
+            final String apiTitle = String.format("%s API", StringUtils.capitalize("CONTEST APPLICATION"));
+            return new OpenAPI()
+                    .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
+                    .components(
+                            new Components()
+                                    .addSecuritySchemes(securitySchemeName,
+                                            new SecurityScheme()
+                                                    .name(securitySchemeName)
+                                                    .type(SecurityScheme.Type.HTTP)
+                                                    .scheme("bearer")
+                                                    .bearerFormat("JWT")
+                                    )
+                    )
+                    .info(new Info().title(apiTitle).version("1.0.0"));
+        }
     }
-
 }

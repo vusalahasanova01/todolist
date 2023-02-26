@@ -21,6 +21,17 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
+    private static final String[] AUTH_WHITE_LIST = {
+            "/login/**",
+            "/token/refresh/**",
+            "/register/**",
+            "/verify/**",
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/v2/api-docs/**",
+            "/swagger-resources/**"
+    };
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -37,7 +48,7 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
         customAuthenticationFilter.setFilterProcessesUrl("/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests().antMatchers("/login/**", "/token/refresh/**", "/register/**", "/verify/**").permitAll();
+        http.authorizeRequests().antMatchers(AUTH_WHITE_LIST).permitAll();
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
