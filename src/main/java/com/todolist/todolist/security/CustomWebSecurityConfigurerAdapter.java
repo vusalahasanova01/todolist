@@ -60,4 +60,5 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
         return super.authenticationManagerBean();
     }
 
+
 }

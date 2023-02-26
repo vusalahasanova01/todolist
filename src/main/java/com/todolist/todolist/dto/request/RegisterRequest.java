@@ -1,5 +1,6 @@
 package com.todolist.todolist.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.todolist.todolist.validation.constraints.ValidPassword;
 import lombok.Data;
 
@@ -19,6 +20,7 @@ public class RegisterRequest {
     @ValidPassword
     private String confirmPassword;
 
+    @JsonIgnore
     public boolean isPasswordsMatched() {
         return Objects.nonNull(password) && password.equals(confirmPassword);
     }
