@@ -23,17 +23,20 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
 
     @Override
-    public List<Task> getTasksByUserId(Long id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        User user = optionalUser.orElseThrow(ExceptionUtil::exUserNotFound);
+    public List<Task> getTasksByEmail(String email) {
+        User user = userRepository.findByEmail(email);
         return user.getTasks();
     }
 
+
     @Override
-    public Task createTaskById(Long userId, Task task) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        User user = userOptional.orElseThrow(ExceptionUtil::exUserNotFound);
-        task.setUser(user);
+    public Task createTaskByEmail(String email, Task task) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            task.setUser(user);
+        } else {
+            throw new UserNotFoundException("user not found");
+        }
         return taskRepository.save(task);
     }
 
@@ -55,9 +58,8 @@ public class TaskServiceImpl implements TaskService {
 
 
     @Override
-    public List<Task> getArchiveTasks(Long id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        User user = optionalUser.orElseThrow(ExceptionUtil::exUserNotFound);
+    public List<Task> getArchiveTasks(String email) {
+        User user = userRepository.findByEmail(email);
         return user.getTasks().stream()
                 .filter(this::isTaskStatusArchived)
                 .collect(Collectors.toList());
