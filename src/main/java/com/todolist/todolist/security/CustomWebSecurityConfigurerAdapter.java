@@ -2,6 +2,7 @@ package com.todolist.todolist.security;
 
 import com.todolist.todolist.security.filter.CustomAuthenticationFilter;
 import com.todolist.todolist.security.filter.CustomAuthorizationFilter;
+import com.todolist.todolist.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,6 +41,7 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
     };
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserService userService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -50,7 +52,7 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
+        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean(),userService);
         customAuthenticationFilter.setFilterProcessesUrl("/login");
         http.cors()
                 .and().csrf().disable();
@@ -93,4 +95,5 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
 
         return corsConfig;
     }
+
 }

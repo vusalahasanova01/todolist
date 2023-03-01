@@ -44,9 +44,9 @@ public class AuthServiceImpl implements AuthService {
             try {
                 String username = SecurityUtil.getSubjectFromBearerToken(bearerToken);
                 UserDetails user = userService.loadUserByUsername(username);
-
                 String requestUrl = request.getRequestURL().toString();
-                String accessToken = SecurityUtil.getAccessToken(user, requestUrl);
+                Long userId = userService.getByUsername(username).getId();
+                String accessToken = SecurityUtil.getAccessToken(user, requestUrl, userId);
                 String newRefreshToken = SecurityUtil.getRefreshToken(user, requestUrl);
 
                 final Map<String, String> tokenMap = SecurityUtil.getTokenMap(accessToken, newRefreshToken);

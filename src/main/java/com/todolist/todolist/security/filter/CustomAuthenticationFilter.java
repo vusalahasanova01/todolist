@@ -1,7 +1,9 @@
 package com.todolist.todolist.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.todolist.todolist.service.UserService;
 import com.todolist.todolist.util.SecurityUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,12 +21,10 @@ import java.util.Map;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
+@RequiredArgsConstructor
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
-
-    public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
+    private final UserService userService;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
@@ -46,8 +46,10 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                                             Authentication authentication
     ) throws IOException {
         User user = (User) authentication.getPrincipal();
+        Long userId = userService.getByUsername(user.getUsername()).getId();
+
         String requestUrl = request.getRequestURL().toString();
-        String accessToken = SecurityUtil.getAccessToken(user, requestUrl);
+        String accessToken = SecurityUtil.getAccessToken(user, requestUrl, userId);
         String refreshToken = SecurityUtil.getRefreshToken(user, requestUrl);
         final Map<String, String> tokens = SecurityUtil.getTokenMap(accessToken, refreshToken);
         response.setContentType(APPLICATION_JSON_VALUE);

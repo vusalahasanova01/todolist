@@ -48,19 +48,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, VerificationFailedException {
-        User userByEmail = userRepository.findByEmail(username);
+    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException, VerificationFailedException {
+        User userById = userRepository.findById(Long.parseLong(userId)).orElse(null);
 
-        if (Objects.isNull(userByEmail)) {
+        if (Objects.isNull(userById)) {
             throw ExceptionUtil.exUserNotFound();
         }
 
-        if (Boolean.FALSE.equals(userByEmail.getEnabled())) {
+        if (Boolean.FALSE.equals(userById.getEnabled())) {
             throw ExceptionUtil.verificationFailed();
         }
 
         return new org.springframework.security.core.userdetails.User(
-                userByEmail.getEmail(), userByEmail.getPassword(), Collections.emptyList());
+                userById.getEmail(), userById.getPassword(), Collections.emptyList());
     }
 
 
