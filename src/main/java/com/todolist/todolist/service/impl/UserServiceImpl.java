@@ -43,6 +43,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void delete(User user) {
+        userRepository.delete(user);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, VerificationFailedException {
         User userByEmail = userRepository.findByEmail(username);
 
@@ -58,10 +63,6 @@ public class UserServiceImpl implements UserService {
                 userByEmail.getEmail(), userByEmail.getPassword(), Collections.emptyList());
     }
 
-    @Override
-    public void deleteUserByEmail(String email) {
-        userRepository.deleteByEmail(email);
-    }
 
     @Override
     @Transactional
