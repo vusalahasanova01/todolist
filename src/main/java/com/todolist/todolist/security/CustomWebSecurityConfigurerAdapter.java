@@ -46,7 +46,10 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
     protected void configure(HttpSecurity http) throws Exception {
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
         customAuthenticationFilter.setFilterProcessesUrl("/login");
-        http.csrf().disable();
+        http.cors()
+                .and().authorizeRequests()
+                .anyRequest().permitAll()
+                .and().csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeRequests().antMatchers(AUTH_WHITE_LIST).permitAll();
         http.authorizeRequests().anyRequest().authenticated();
@@ -59,6 +62,33 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+    
+    
+    @Bean
+    public CorsConfiguration corsConfiguration(HttpServletRequest request) {
+        var corsConfig = new CorsConfiguration().applyPermitDefaultValues();
+        corsConfig.setAllowedOrigins(
+                List.of(
+                        "**/**",
+                        "/**"
+                )
+        );
+        corsConfig.setMaxAge(3600L);
+        corsConfig.setAllowedMethods(
+                List.of(
+                        HttpMethod.GET.name(),
+                        HttpMethod.OPTIONS.name(),
+                        HttpMethod.HEAD.name(),
+                        HttpMethod.POST.name(),
+                        HttpMethod.PATCH.name(),
+                        HttpMethod.PUT.name(),
+                        HttpMethod.DELETE.name()
+                )
+        );
+        corsConfig.addAllowedHeader("*");
+        corsConfig.setAllowCredentials(true);
 
+        return corsConfig;
+    }
 
 }
