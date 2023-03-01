@@ -19,7 +19,7 @@ public class EmailProvider {
 
     public void sendVerificationEmail(User user) throws MessagingException, UnsupportedEncodingException {
         String toAddress = user.getEmail();
-        String fromAddress = "todolistorganization@outlook.com";
+        String fromAddress = "talib114@outlook.com";
         String senderName = "todolist organization";
         String subject = "Please verify your registration";
         String content = "Dear [[name]],<br>"
