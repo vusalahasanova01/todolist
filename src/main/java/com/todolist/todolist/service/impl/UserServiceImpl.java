@@ -51,5 +51,10 @@ public class UserServiceImpl implements UserService {
         return new org.springframework.security.core.userdetails.User(
                 userByEmail.getEmail(), userByEmail.getPassword(), Collections.emptyList());
     }
+    
+    @Override
+    public void delete(User user) {
+        userRepository.delete(user);
+    }
 
 }
