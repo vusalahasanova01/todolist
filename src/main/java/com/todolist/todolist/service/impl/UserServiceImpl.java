@@ -52,9 +52,9 @@ public class UserServiceImpl implements UserService {
                 userByEmail.getEmail(), userByEmail.getPassword(), Collections.emptyList());
     }
     
-    @Override
-    public void delete(User user) {
-        userRepository.delete(user);
+   
+    public void deleteUserByEmail(String email) {
+        userRepository.deleteByEmail(email);
     }
 
 }
