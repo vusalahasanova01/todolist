@@ -10,5 +10,7 @@ public interface UserService extends UserDetailsService {
     void save(User user);
 
     User getByVerificationCode(String verificationCode);
+    
+    void delete(User user);
 
 }
