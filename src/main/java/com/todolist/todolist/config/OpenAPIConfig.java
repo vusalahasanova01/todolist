@@ -37,4 +37,5 @@ public class OpenAPIConfig {
                     .info(new Info().title(apiTitle).version("1.0.0"));
         }
     }
+
 }

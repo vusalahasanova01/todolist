@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
@@ -24,6 +25,11 @@ public class UserServiceImpl implements UserService {
     public User getUserById(Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
         return optionalUser.orElseThrow(ExceptionUtil::exUserNotFound);
+    }
+
+    @Override
+    public User getByUsername(String username) {
+        return userRepository.findByEmail(username);
     }
 
     @Override
@@ -51,10 +57,16 @@ public class UserServiceImpl implements UserService {
         return new org.springframework.security.core.userdetails.User(
                 userByEmail.getEmail(), userByEmail.getPassword(), Collections.emptyList());
     }
-    
+
     @Override
     public void delete(User user) {
         userRepository.delete(user);
+    }
+
+    @Override
+    @Transactional
+    public void deleteByUsername(String username) {
+        userRepository.deleteByEmail(username);
     }
 
 }
