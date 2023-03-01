@@ -9,5 +9,5 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     User findByVerificationCode(String code);
     
-    void deleteUserByEmail(String email);
+    void deleteByEmail(String email);
 }
