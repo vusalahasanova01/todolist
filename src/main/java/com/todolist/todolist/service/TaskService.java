@@ -5,9 +5,9 @@ import com.todolist.todolist.dao.entity.Task;
 import java.util.List;
 
 public interface TaskService {
-    List<Task> getTasksByUserId(Long id);
+    List<Task> getTasksByEmail(String email);
 
-    Task createTaskById(Long userId, Task task);
+    Task createTaskByEmail(String email, Task task);
 
     Task updateTask(Long id, Task newTask);
 
@@ -15,7 +15,7 @@ public interface TaskService {
 
     void unArchiveTask(Long id);
 
-    List<Task> getArchiveTasks(Long id);
+    List<Task> getArchiveTasks(String email);
 
     void deleteTask(Long id);
 
