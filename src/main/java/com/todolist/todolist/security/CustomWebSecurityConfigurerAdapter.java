@@ -36,7 +36,7 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
             "/swagger-ui/**",
             "/swagger-ui.html",
             "/v2/api-docs/**",
-            "/swagger-resources/**"
+            "/swagger-resources/**",
     };
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
