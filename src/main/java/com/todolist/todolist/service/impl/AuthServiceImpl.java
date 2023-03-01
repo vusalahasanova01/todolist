@@ -3,9 +3,10 @@ package com.todolist.todolist.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todolist.todolist.config.properties.SecurityConstants;
 import com.todolist.todolist.dao.entity.User;
-import com.todolist.todolist.dao.repository.UserRepository;
+import com.todolist.todolist.exception.DuplicateUsernameException;
 import com.todolist.todolist.exception.PasswordsNotMatchedException;
 import com.todolist.todolist.dto.request.RegisterRequest;
+import com.todolist.todolist.exception.EmailProviderException;
 import com.todolist.todolist.service.AuthService;
 import com.todolist.todolist.service.UserService;
 import com.todolist.todolist.util.EmailProvider;
@@ -61,12 +62,16 @@ public class AuthServiceImpl implements AuthService {
                 new ObjectMapper().writeValue(response.getOutputStream(), error);
             }
         } else {
-            throw new RuntimeException("Refresh token is mising");
+            throw new RuntimeException("Refresh token is missing");
         }
     }
 
     @Override
     public void register(RegisterRequest request) {
+        if (Objects.nonNull(userService.getByUsername(request.getEmail()))) {
+            throw new DuplicateUsernameException("duplicate username");
+        }
+
         User user = new User();
 
         if (request.isPasswordsMatched()) {
@@ -74,7 +79,7 @@ public class AuthServiceImpl implements AuthService {
             String encodedPassword = bCryptPasswordEncoder.encode(password);
             user.setPassword(encodedPassword);
         } else {
-            throw new PasswordsNotMatchedException("passwords not mathced");
+            throw new PasswordsNotMatchedException("passwords not matched");
         }
 
         user.setFullName(request.getFullName());
@@ -85,29 +90,25 @@ public class AuthServiceImpl implements AuthService {
         user.setVerificationCode(randomCode);
         user.setEnabled(false);
 
-        userService.save(user);
-
-
         try {
             emailProvider.sendVerificationEmail(user);
         } catch (MessagingException | UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+            throw new EmailProviderException("error occurred in email sending process.");
         }
 
+        userService.save(user);
     }
 
-    public boolean verify(String verificationCode){
+    public boolean verify(String verificationCode) {
         User user = userService.getByVerificationCode(verificationCode);
-        if (Objects.isNull(user) || user.isEnabled()){
+        if (Objects.isNull(user) || user.isEnabled()) {
             return false;
-        }
-        else {
+        } else {
             user.setVerificationCode(null);
             user.setEnabled(true);
             userService.save(user);
             return true;
         }
     }
-
 
 }

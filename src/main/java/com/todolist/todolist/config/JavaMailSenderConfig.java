@@ -19,8 +19,8 @@ public class JavaMailSenderConfig {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
         javaMailSender.setHost("smtp.office365.com");
         javaMailSender.setPort(587);
-        javaMailSender.setUsername("todolistorganization@outlook.com");
-        javaMailSender.setPassword("Pass1Word2!");
+        javaMailSender.setUsername("talib114@outlook.com");
+        javaMailSender.setPassword("taliB5836");
         javaMailSender.setProtocol("smtp");
         javaMailSender.setJavaMailProperties(props);
         return javaMailSender;
