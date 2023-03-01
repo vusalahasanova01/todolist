@@ -15,15 +15,15 @@ import java.util.List;
 public class TaskController {
   private final TaskService taskService;
 
-  @GetMapping("/getTasks/userid/{userid}")
-  public List<Task> getTasksByUserId(@PathVariable Long userid) {
-    return taskService.getTasksByUserId(userid);
-  }
+  @GetMapping("/getTasks/email/{email}")
+  public List<Task> getTasksByEmail(@PathVariable String email) {
+      return taskService.getTasksByEmail(email);
+   }
 
-  @GetMapping("/getArchivedTasks/userid/{userid}")
-  public List<Task> getArchivedTasks(@PathVariable Long userid) {
-    return taskService.getArchiveTasks(userid);
-  }
+  @GetMapping("/getArchivedTasks/email/{email}")
+  public List<Task> getArchivedTasks(@PathVariable String email) {
+        return taskService.getArchiveTasks(email);
+    }
 
   @PutMapping("archive/id{id}")
   public  void archiveTask(@PathVariable Long id){
@@ -35,11 +35,11 @@ public class TaskController {
     taskService.unArchiveTask(id);
   }
 
-  @PostMapping("/addTask/userid/{userId}")
-  public ResponseEntity<Task> createTask(@PathVariable Long userId, @RequestBody Task task) {
-    Task createdTask = taskService.createTaskById(userId, task);
-    return ResponseEntity.ok(createdTask);
-  }
+  @PostMapping("/addTask/email/{email}")
+  public ResponseEntity<Task> createTask(@PathVariable String email, @RequestBody Task task) {
+        Task createdTask = taskService.createTaskByEmail(email, task);
+     return ResponseEntity.ok(createdTask);
+   }
 
   @PutMapping("id/{taskId}")
   public ResponseEntity<Task> updateTask(@PathVariable Long taskId, @RequestBody Task task) {
