@@ -11,6 +11,6 @@ public interface UserService extends UserDetailsService {
 
     User getByVerificationCode(String verificationCode);
     
-    void delete(User user);
+    void deleteUserByEmail(String email);
 
 }
