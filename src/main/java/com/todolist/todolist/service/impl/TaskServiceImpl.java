@@ -4,12 +4,16 @@ import com.todolist.todolist.dao.entity.Task;
 import com.todolist.todolist.dao.entity.User;
 import com.todolist.todolist.dao.repository.TaskRepository;
 import com.todolist.todolist.dao.repository.UserRepository;
+import com.todolist.todolist.dto.request.TaskCreation;
+import com.todolist.todolist.exception.UserNotFoundException;
 import com.todolist.todolist.model.TaskStatus;
 import com.todolist.todolist.service.TaskService;
 import com.todolist.todolist.util.ExceptionUtil;
+import com.todolist.todolist.util.Mapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -30,8 +34,12 @@ public class TaskServiceImpl implements TaskService {
 
 
     @Override
-    public Task createTaskByEmail(String email, Task task) {
+    public Task createTaskByEmail(String email, TaskCreation taskCreation) {
         User user = userRepository.findByEmail(email);
+        Task task = Mapper.map(taskCreation, Task.class);
+        task.setTaskStatus(taskCreation.getTaskStatus());
+        task.setTaskSortType(taskCreation.getTaskSortType());
+        task.setTaskCreateDate(LocalDate.now());
         if (user != null) {
             task.setUser(user);
         } else {
@@ -41,15 +49,14 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task updateTask(Long id, Task newTask) {
+    public Task updateTask(Long id, TaskCreation taskCreation) {
         return taskRepository.findById(id)
                 .map(task -> {
-                    task.setTaskName(newTask.getTaskName());
-                    task.setTaskStatus(newTask.getTaskStatus());
-                    task.setDescription(newTask.getDescription());
-                    task.setPhoto(newTask.getPhoto());
-                    task.setTaskSortType(newTask.getTaskSortType());
-                    task.setTaskDeadlineDate(newTask.getTaskDeadlineDate());
+                    if(taskCreation.getTaskName() != null) task.setTaskName(taskCreation.getTaskName());
+                    if(taskCreation.getTaskStatus() != null) task.setTaskStatus(taskCreation.getTaskStatus());
+                    if(taskCreation.getDescription() != null) task.setDescription(taskCreation.getDescription());
+                    if(taskCreation.getTaskSortType() != null) task.setTaskSortType(taskCreation.getTaskSortType());
+                    if(taskCreation.getTaskDeadlineDate() != null) task.setTaskDeadlineDate(taskCreation.getTaskDeadlineDate());
                     return taskRepository.save(task);
                 })
                 .orElseThrow(ExceptionUtil::exTaskNotFound);
