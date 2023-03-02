@@ -92,7 +92,7 @@ public class AuthServiceImpl implements AuthService {
 
         try {
             emailProvider.sendVerificationEmail(user);
-        } catch (MessagingException | UnsupportedEncodingException e) {
+        } catch (Exception e) {
             throw new EmailProviderException("error occurred in email sending process.");
         }
 
