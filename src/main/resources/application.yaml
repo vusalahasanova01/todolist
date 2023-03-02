@@ -1,16 +1,25 @@
 spring:
   datasource:
-    driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/todo
-    username: talibnabi
-    password: password999
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://todoapp.cghqknuwp2cc.us-east-2.rds.amazonaws.com:3306/todoapp
+    username: ParvizValiyev
+    password: password
   jpa:
-    hibernate.ddl-auto: create
+    hibernate.ddl-auto: update
     generate-ddl: true
     show-sql: true
-
-  liquibase:
-    enabled: false
-
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: talib114@outlook.com
+    password: taliB5836
+    properties:
+      mail:
+        smtp:
+          auth:true:
+          starttls:
+            enable:true:
 server:
-  port: 8099
+  port: 5000
+
+
