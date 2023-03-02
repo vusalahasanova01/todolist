@@ -1,6 +1,7 @@
 package com.todolist.todolist.controller;
 
 import com.todolist.todolist.dao.entity.Task;
+import com.todolist.todolist.dto.request.TaskCreation;
 import com.todolist.todolist.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -36,14 +37,14 @@ public class TaskController {
   }
 
   @PostMapping("/addTask/email/{email}")
-  public ResponseEntity<Task> createTask(@PathVariable String email, @RequestBody Task task) {
-        Task createdTask = taskService.createTaskByEmail(email, task);
+  public ResponseEntity<Task> createTask(@PathVariable String email, @RequestBody TaskCreation taskCreation) {
+        Task createdTask = taskService.createTaskByEmail(email, taskCreation);
      return ResponseEntity.ok(createdTask);
    }
 
   @PutMapping("id/{taskId}")
-  public ResponseEntity<Task> updateTask(@PathVariable Long taskId, @RequestBody Task task) {
-    Task updatedTask = taskService.updateTask(taskId, task);
+  public ResponseEntity<Task> updateTask(@PathVariable Long taskId, @RequestBody TaskCreation taskCreation) {
+    Task updatedTask = taskService.updateTask(taskId, taskCreation);
     return ResponseEntity.ok(updatedTask);
   }
 

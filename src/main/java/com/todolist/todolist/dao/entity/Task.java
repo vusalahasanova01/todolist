@@ -34,9 +34,6 @@ public class Task implements Serializable {
     @Column(name = "task_name")
     private String taskName;
 
-    @Column(name = "photo")
-    private byte[] photo;
-
     @Column(name = "task_sort_type")
     private Integer taskSortType;
 
