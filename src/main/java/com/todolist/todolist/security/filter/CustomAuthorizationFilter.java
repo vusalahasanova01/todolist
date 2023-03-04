@@ -36,6 +36,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
         String servletPath = request.getServletPath();
         if (servletPath.equals("/login") ||
+                servletPath.equals("/sign-in") ||
                 servletPath.equals("/token/refresh") ||
                 servletPath.equals("/register") ||
                 servletPath.equals("/verify")) {
