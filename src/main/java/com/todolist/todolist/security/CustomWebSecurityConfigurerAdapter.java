@@ -28,6 +28,7 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
 
     private static final String[] AUTH_WHITE_LIST = {
             "/login/**",
+            "/sign-in/**",
             "/token/refresh/**",
             "/register/**",
             "/verify/**",

@@ -3,8 +3,6 @@ package com.todolist.todolist.controller;
 import com.todolist.todolist.dto.request.RegisterRequest;
 import com.todolist.todolist.service.AuthService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.validator.constraints.Length;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;

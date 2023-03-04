@@ -17,10 +17,10 @@ public class JavaMailSenderConfig {
         props.put("mail.smtp.starttls.enable", "true");
 
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
-        javaMailSender.setHost("smtp.office365.com");
+        javaMailSender.setHost("smtp.gmail.com");
         javaMailSender.setPort(587);
-        javaMailSender.setUsername("talib114@outlook.com");
-        javaMailSender.setPassword("taliB5836");
+        javaMailSender.setUsername("todolistorganization@gmail.com");
+        javaMailSender.setPassword("rgankytzymfbyphy");
         javaMailSender.setProtocol("smtp");
         javaMailSender.setJavaMailProperties(props);
         return javaMailSender;
