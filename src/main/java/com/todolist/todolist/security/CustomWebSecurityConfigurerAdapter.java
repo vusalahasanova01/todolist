@@ -5,7 +5,6 @@ import com.todolist.todolist.security.filter.CustomAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,9 +14,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import java.util.Arrays;
+import java.util.Collections;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -69,29 +70,14 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
     }
 
     @Bean
-    public CorsConfiguration corsConfiguration(HttpServletRequest request) {
-        var corsConfig = new CorsConfiguration().applyPermitDefaultValues();
-        corsConfig.setAllowedOrigins(
-                List.of(
-                        "**/**",
-                        "/**"
-                )
-        );
-        corsConfig.setMaxAge(3600L);
-        corsConfig.setAllowedMethods(
-                List.of(
-                        HttpMethod.GET.name(),
-                        HttpMethod.OPTIONS.name(),
-                        HttpMethod.HEAD.name(),
-                        HttpMethod.POST.name(),
-                        HttpMethod.PATCH.name(),
-                        HttpMethod.PUT.name(),
-                        HttpMethod.DELETE.name()
-                )
-        );
-        corsConfig.addAllowedHeader("*");
-        corsConfig.setAllowCredentials(true);
-
-        return corsConfig;
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Collections.singletonList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+        configuration.setAllowedHeaders(Collections.singletonList("*"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
+
 }
