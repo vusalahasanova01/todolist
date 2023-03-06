@@ -15,7 +15,7 @@ public final class ExceptionUtil {
     }
 
     public static UnsupportedOperationException exUnsupported(){
-        return new UnsupportedOperationException("task not exist");
+        return new UnsupportedOperationException("unsupported operation");
     }
 
     public static VerificationFailedException verificationFailed(){

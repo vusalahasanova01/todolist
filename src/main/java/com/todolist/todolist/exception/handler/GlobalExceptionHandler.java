@@ -1,8 +1,6 @@
 package com.todolist.todolist.exception.handler;
 
-import com.todolist.todolist.exception.DuplicateUsernameException;
-import com.todolist.todolist.exception.EmailProviderException;
-import com.todolist.todolist.exception.PasswordsNotMatchedException;
+import com.todolist.todolist.exception.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
@@ -48,7 +46,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(PasswordsNotMatchedException.class)
     public ResponseEntity<ErrorMessage> handlePasswordsNotMatchedException(PasswordsNotMatchedException ex) {
         String errorText = "Password not matched";
-        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.EXPECTATION_FAILED.value(), errorText);
+        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.NOT_ACCEPTABLE.value(), errorText);
         return ResponseEntity.badRequest().body(errorMessage);
     }
 
@@ -62,7 +60,28 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EmailProviderException.class)
     public ResponseEntity<ErrorMessage> handleEmailProviderException(EmailProviderException ex) {
         String errorText = "email not sent";
-        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.METHOD_FAILURE.value(), errorText);
+        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.NOT_ACCEPTABLE.value(), errorText);
+        return ResponseEntity.badRequest().body(errorMessage);
+    }
+
+    @ExceptionHandler(TaskNotFoundException.class)
+    public ResponseEntity<ErrorMessage> handleTaskNotFoundException() {
+        String errorText = "task not found";
+        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.NOT_ACCEPTABLE.value(), errorText);
+        return ResponseEntity.badRequest().body(errorMessage);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorMessage> handleUserNotFoundException() {
+        String errorText = "user not found";
+        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.NOT_ACCEPTABLE.value(), errorText);
+        return ResponseEntity.badRequest().body(errorMessage);
+    }
+
+    @ExceptionHandler(UnsupportedOperationException.class)
+    public ResponseEntity<ErrorMessage> handleUnsupportedOperationException() {
+        String errorText = "unsupported operation";
+        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.NOT_ACCEPTABLE.value(), errorText);
         return ResponseEntity.badRequest().body(errorMessage);
     }
 
