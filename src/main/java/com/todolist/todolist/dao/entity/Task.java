@@ -1,5 +1,6 @@
 package com.todolist.todolist.dao.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.todolist.todolist.model.TaskSortType;
 import com.todolist.todolist.model.TaskStatus;
 import com.todolist.todolist.util.ExceptionUtil;
@@ -19,6 +20,7 @@ import java.util.Arrays;
 @NoArgsConstructor
 @Entity
 @Table(name = "ag_task")
+@JsonIgnoreProperties({"user"})
 public class Task implements Serializable {
 
     @Serial
