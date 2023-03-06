@@ -80,7 +80,7 @@ public class TaskServiceImpl implements TaskService {
     public void archiveTask(Long id) {
         Optional<Task> optionalTask = taskRepository.findById(id);
         Task task = optionalTask.orElseThrow(ExceptionUtil:: exTaskNotFound);
-        if (task.getTaskStatus().equals(TaskStatus.ARCHIVED)) {
+        if ((TaskStatus.ARCHIVED).equals(task.getTaskStatus())) {
             throw ExceptionUtil.exUnsupported();
         }
         task.setTaskStatus(TaskStatus.ARCHIVED);
@@ -90,7 +90,7 @@ public class TaskServiceImpl implements TaskService {
     public void unArchiveTask(Long id) {
         Optional<Task> optionalTask = taskRepository.findById(id);
         Task task = optionalTask.orElseThrow(ExceptionUtil:: exTaskNotFound);
-        if (task.getTaskStatus().equals(TaskStatus.ACTIVE)) {
+        if ((TaskStatus.ACTIVE).equals(task.getTaskStatus())) {
             throw ExceptionUtil.exUnsupported();
         }
         task.setTaskStatus(TaskStatus.ACTIVE);

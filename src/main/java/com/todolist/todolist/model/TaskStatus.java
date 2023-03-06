@@ -7,7 +7,8 @@ import lombok.Getter;
 public enum TaskStatus {
 
     ARCHIVED(1),
-    ACTIVE(2);
+    ACTIVE(2),
+    UNSUPPORTED(-1);
 
 
     @Getter
