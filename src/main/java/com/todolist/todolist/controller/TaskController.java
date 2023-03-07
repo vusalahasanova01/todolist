@@ -26,6 +26,11 @@ public class TaskController {
         return taskService.getArchiveTasks(email);
     }
 
+  @GetMapping("/getTaskById/id/{id}")
+  public Task getTaskById(@PathVariable Long id) {
+    return taskService.getTaskById(id);
+  }
+
   @PutMapping("archive/id/{id}")
   public  void archiveTask(@PathVariable Long id){
     taskService.archiveTask(id);
