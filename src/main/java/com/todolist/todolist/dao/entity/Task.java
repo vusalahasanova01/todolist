@@ -1,5 +1,6 @@
 package com.todolist.todolist.dao.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.todolist.todolist.model.TaskSortType;
 import com.todolist.todolist.model.TaskStatus;
 import com.todolist.todolist.util.ExceptionUtil;
@@ -12,6 +13,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Objects;
 
 
 @Data
@@ -19,6 +21,7 @@ import java.util.Arrays;
 @NoArgsConstructor
 @Entity
 @Table(name = "ag_task")
+@JsonIgnoreProperties({"user"})
 public class Task implements Serializable {
 
     @Serial
@@ -54,24 +57,28 @@ public class Task implements Serializable {
 
     public TaskSortType getTaskSortType() {
         return Arrays.stream(TaskSortType.values())
-                .filter(sortType -> sortType.getId() == this.taskSortType)
+                .filter(sortType -> Objects.equals(sortType.getId(), this.taskSortType))
                 .findFirst()
-                .orElseThrow(ExceptionUtil::exUnsupported);
+                .orElse(TaskSortType.UNSUPPORTED);
     }
 
     public void setTaskSortType(TaskSortType taskSortType) {
-        this.taskSortType = taskSortType.getId();
+        if (taskSortType != null) {
+            this.taskSortType = taskSortType.getId();
+        }
     }
 
     public TaskStatus getTaskStatus() {
         return Arrays.stream(TaskStatus.values())
-                .filter(status -> status.getId() == this.taskStatus)
+                .filter(status -> Objects.equals(status.getId(), this.taskStatus))
                 .findFirst()
-                .orElseThrow(ExceptionUtil::exUnsupported);
+                .orElse(TaskStatus.UNSUPPORTED);
     }
 
     public void setTaskStatus(TaskStatus taskStatus) {
-        this.taskStatus = taskStatus.getId();
+        if (taskStatus != null) {
+            this.taskStatus = taskStatus.getId();
+        }
     }
 
 }

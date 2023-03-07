@@ -32,6 +32,11 @@ public class TaskServiceImpl implements TaskService {
         return user.getTasks();
     }
 
+    @Override
+    public Task getTaskById(Long id) {
+        return taskRepository.findById(id).orElse(null);
+    }
+
 
     @Override
     public Task createTaskByEmail(String email, TaskCreation taskCreation) {
@@ -52,16 +57,16 @@ public class TaskServiceImpl implements TaskService {
     public Task updateTask(Long id, TaskCreation taskCreation) {
         return taskRepository.findById(id)
                 .map(task -> {
-                    if(taskCreation.getTaskName() != null) task.setTaskName(taskCreation.getTaskName());
-                    if(taskCreation.getTaskStatus() != null) task.setTaskStatus(taskCreation.getTaskStatus());
-                    if(taskCreation.getDescription() != null) task.setDescription(taskCreation.getDescription());
-                    if(taskCreation.getTaskSortType() != null) task.setTaskSortType(taskCreation.getTaskSortType());
-                    if(taskCreation.getTaskDeadlineDate() != null) task.setTaskDeadlineDate(taskCreation.getTaskDeadlineDate());
+                    if (taskCreation.getTaskName() != null) task.setTaskName(taskCreation.getTaskName());
+                    if (taskCreation.getTaskStatus() != null) task.setTaskStatus(taskCreation.getTaskStatus());
+                    if (taskCreation.getDescription() != null) task.setDescription(taskCreation.getDescription());
+                    if (taskCreation.getTaskSortType() != null) task.setTaskSortType(taskCreation.getTaskSortType());
+                    if (taskCreation.getTaskDeadlineDate() != null)
+                        task.setTaskDeadlineDate(taskCreation.getTaskDeadlineDate());
                     return taskRepository.save(task);
                 })
                 .orElseThrow(ExceptionUtil::exTaskNotFound);
     }
-
 
 
     @Override
@@ -79,8 +84,8 @@ public class TaskServiceImpl implements TaskService {
 
     public void archiveTask(Long id) {
         Optional<Task> optionalTask = taskRepository.findById(id);
-        Task task = optionalTask.orElseThrow(ExceptionUtil:: exTaskNotFound);
-        if (task.getTaskStatus().equals(TaskStatus.ARCHIVED)) {
+        Task task = optionalTask.orElseThrow(ExceptionUtil::exTaskNotFound);
+        if ((TaskStatus.ARCHIVED).equals(task.getTaskStatus())) {
             throw ExceptionUtil.exUnsupported();
         }
         task.setTaskStatus(TaskStatus.ARCHIVED);
@@ -89,8 +94,8 @@ public class TaskServiceImpl implements TaskService {
 
     public void unArchiveTask(Long id) {
         Optional<Task> optionalTask = taskRepository.findById(id);
-        Task task = optionalTask.orElseThrow(ExceptionUtil:: exTaskNotFound);
-        if (task.getTaskStatus().equals(TaskStatus.ACTIVE)) {
+        Task task = optionalTask.orElseThrow(ExceptionUtil::exTaskNotFound);
+        if ((TaskStatus.ACTIVE).equals(task.getTaskStatus())) {
             throw ExceptionUtil.exUnsupported();
         }
         task.setTaskStatus(TaskStatus.ACTIVE);

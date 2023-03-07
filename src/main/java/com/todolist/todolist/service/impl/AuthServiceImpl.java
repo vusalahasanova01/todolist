@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todolist.todolist.config.properties.SecurityConstants;
 import com.todolist.todolist.dao.entity.User;
 import com.todolist.todolist.dto.request.RegisterRequest;
+import com.todolist.todolist.dto.request.ResetPasswordRequest;
 import com.todolist.todolist.exception.DuplicateUsernameException;
 import com.todolist.todolist.exception.EmailProviderException;
 import com.todolist.todolist.exception.PasswordsNotMatchedException;
+import com.todolist.todolist.exception.UserNotFoundException;
 import com.todolist.todolist.service.AuthService;
 import com.todolist.todolist.service.UserService;
 import com.todolist.todolist.util.EmailProvider;
@@ -17,9 +19,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Objects;
@@ -89,7 +93,7 @@ public class AuthServiceImpl implements AuthService {
         user.setEnabled(false);
 
         try {
-            emailProvider.sendVerificationEmail(user);
+            emailProvider.sendRegistrationEmail(user);
         } catch (Exception e) {
             e.printStackTrace();
             throw new EmailProviderException("error occurred in email sending process.");
@@ -108,6 +112,42 @@ public class AuthServiceImpl implements AuthService {
             userService.save(user);
             return true;
         }
+    }
+
+    @Override
+    public boolean verifyResetPassword(String token) {
+        User user = userService.getByResetPasswordToken(token);
+        if (user == null) {
+            return false;
+        }
+        userService.enableResetPassword(user);
+        return true;
+    }
+
+    @Override
+    public void processResetPassword(String email) {
+        User user = userService.getByUsername(email);
+
+        if (user == null) {
+            throw new UserNotFoundException("user not found");
+        }
+
+        String token = RandomString.make(64);
+        userService.updateResetPasswordToken(token, email);
+        try {
+            emailProvider.sendResetPasswordEmail(user);
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void resetPassword(ResetPasswordRequest request) {
+        if (request == null || !request.isPasswordMatched()) {
+            throw new PasswordsNotMatchedException("password not matched");
+        }
+
+        userService.updateForgottenPassword(request.getEmail(), request.getPassword());
     }
 
 }
