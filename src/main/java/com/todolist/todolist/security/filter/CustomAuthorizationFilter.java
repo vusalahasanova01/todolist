@@ -39,6 +39,9 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 servletPath.equals("/sign-in") ||
                 servletPath.equals("/token/refresh") ||
                 servletPath.equals("/register") ||
+                servletPath.equals("/verify/reset-password") ||
+                servletPath.equals("/process/reset-password") ||
+                servletPath.equals("/reset-password") ||
                 servletPath.equals("/verify")) {
             filterChain.doFilter(request, response);
         } else {

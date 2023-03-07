@@ -1,6 +1,7 @@
 package com.todolist.todolist.controller;
 
 import com.todolist.todolist.dto.request.RegisterRequest;
+import com.todolist.todolist.dto.request.ResetPasswordRequest;
 import com.todolist.todolist.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -31,5 +32,21 @@ public class AuthController {
     public boolean verifyUser(@RequestParam("code") String code) {
         return authService.verify(code);
     }
+
+    @GetMapping("/verify/reset-password")
+    public boolean verifyResetPassword(@RequestParam("token") String token) {
+        return authService.verifyResetPassword(token);
+    }
+
+    @PutMapping("/process/reset-password")
+    public void processResetPassword(@RequestParam("email") String email) {
+        authService.processResetPassword(email);
+    }
+
+    @PutMapping("reset-password")
+    public void resetPassword(@RequestBody ResetPasswordRequest request) {
+        authService.resetPassword(request);
+    }
+
 
 }

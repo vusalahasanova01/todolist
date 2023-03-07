@@ -51,6 +51,12 @@ public class User implements Serializable {
     @Column(name = "enabled")
     private Boolean enabled;
 
+    @Column(name = "reset_password_token", length = 64)
+    private String resetPasswordToken;
+
+    @Column(name = "reset_enabled")
+    private Boolean resetEnabled;
+
     @OneToMany(
             mappedBy = "user",
             cascade = {CascadeType.MERGE, CascadeType.PERSIST},
