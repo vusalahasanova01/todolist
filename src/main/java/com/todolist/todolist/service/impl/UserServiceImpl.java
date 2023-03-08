@@ -12,10 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,12 +21,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    @Override
-    public User getUserById(Long id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        return optionalUser.orElseThrow(ExceptionUtil::exUserNotFound);
-    }
 
     @Override
     public User getByUsername(String username) {
@@ -43,11 +35,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getByVerificationCode(String verificationCode) {
         return userRepository.findByVerificationCode(verificationCode);
-    }
-
-    @Override
-    public void delete(User user) {
-        userRepository.delete(user);
     }
 
     @Override
@@ -106,12 +93,6 @@ public class UserServiceImpl implements UserService {
         user.setResetPasswordToken(null);
         user.setResetEnabled(true);
         userRepository.save(user);
-    }
-
-    @Override
-    @Transactional
-    public void deleteByUsername(String username) {
-        userRepository.deleteByEmail(username);
     }
 
 }
