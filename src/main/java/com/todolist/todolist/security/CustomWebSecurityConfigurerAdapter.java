@@ -36,7 +36,6 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
             "/verify/reset-password/**",
             "/process/reset-password/**",
             "/reset-password/**",
-            "/user/delete/**",
             "/v3/api-docs/**",
             "/swagger-ui/**",
             "/swagger-ui.html",

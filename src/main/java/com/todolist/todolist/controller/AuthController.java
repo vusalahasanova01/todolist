@@ -29,12 +29,12 @@ public class AuthController {
     }
 
     @GetMapping("/verify")
-    public boolean verifyUser(@RequestParam("code") String code) {
+    public String verifyUser(@RequestParam("code") String code) {
         return authService.verify(code);
     }
 
     @GetMapping("/verify/reset-password")
-    public boolean verifyResetPassword(@RequestParam("token") String token) {
+    public String verifyResetPassword(@RequestParam("token") String token) {
         return authService.verifyResetPassword(token);
     }
 

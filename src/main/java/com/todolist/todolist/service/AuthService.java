@@ -13,9 +13,9 @@ public interface AuthService {
 
     void register(RegisterRequest request);
 
-    boolean verify(String verificationCode);
+    String verify(String verificationCode);
 
-    boolean verifyResetPassword(String token);
+    String verifyResetPassword(String token);
 
     void processResetPassword(String email);
 

@@ -12,6 +12,7 @@ import com.todolist.todolist.exception.UserNotFoundException;
 import com.todolist.todolist.service.AuthService;
 import com.todolist.todolist.service.UserService;
 import com.todolist.todolist.util.EmailProvider;
+import com.todolist.todolist.util.HtmlUtil;
 import com.todolist.todolist.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import net.bytebuddy.utility.RandomString;
@@ -102,26 +103,26 @@ public class AuthServiceImpl implements AuthService {
         userService.save(user);
     }
 
-    public boolean verify(String verificationCode) {
+    public String verify(String verificationCode) {
         User user = userService.getByVerificationCode(verificationCode);
         if (Objects.isNull(user) || user.isEnabled()) {
-            return false;
+            return HtmlUtil.somethingIsWrong;
         } else {
             user.setVerificationCode(null);
             user.setEnabled(true);
             userService.save(user);
-            return true;
+            return HtmlUtil.operationIsSuccessful;
         }
     }
 
     @Override
-    public boolean verifyResetPassword(String token) {
+    public String verifyResetPassword(String token) {
         User user = userService.getByResetPasswordToken(token);
         if (user == null) {
-            return false;
+            return HtmlUtil.somethingIsWrong;
         }
         userService.enableResetPassword(user);
-        return true;
+        return HtmlUtil.operationIsSuccessful;
     }
 
     @Override
