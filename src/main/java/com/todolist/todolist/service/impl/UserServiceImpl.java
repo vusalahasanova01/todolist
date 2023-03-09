@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException("user not found");
         }
 
-        if (Boolean.FALSE.equals(user.getResetEnabled())) {
+        if (!Boolean.TRUE.equals(user.getResetEnabled())) {
             throw new UnsupportedOperationException();
         }
 
