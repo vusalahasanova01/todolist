@@ -16,10 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
@@ -34,15 +31,17 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain
     ) throws ServletException, IOException {
+        List<String> NO_AUTH = List.of("/login",
+                "/sign-in",
+                "/token/refresh",
+                "/register",
+                "/verify/reset-password",
+                "/process/reset-password",
+                "/reset-password",
+                "/verify");
+
         String servletPath = request.getServletPath();
-        if (servletPath.equals("/login") ||
-                servletPath.equals("/sign-in") ||
-                servletPath.equals("/token/refresh") ||
-                servletPath.equals("/register") ||
-                servletPath.equals("/verify/reset-password") ||
-                servletPath.equals("/process/reset-password") ||
-                servletPath.equals("/reset-password") ||
-                servletPath.equals("/verify")) {
+        if (NO_AUTH.contains(servletPath)) {
             filterChain.doFilter(request, response);
         } else {
             String bearerToken = request.getHeader(AUTHORIZATION);
